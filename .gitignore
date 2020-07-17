@@ -1,0 +1,4 @@
+/.ipynb_checkpoints/
+/input/raw_data/
+/input/*_raw.csv
+.idea/*

@@ -1,0 +1,11 @@
+numpy
+pandas
+Scikit-learn
+matplotlib
+statsmodels
+seaborn
+bzip2
+eli5
+scipy
+bs4
+requests
