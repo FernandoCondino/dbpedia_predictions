@@ -18,6 +18,7 @@ We have 3 files to merge:
       
 To really identify "cities or settlements with at least 1,000 people", we read a file also distributed by DBpedia: geonames_links.ttl.bz2 (see <a href="https://public.opendatasoft.com/explore/dataset/geonames-all-cities-with-a-population-1000/table/?disjunctive.country"> GeoNames project</a>)
 <h3>Approach:</h3>
+
 * **Preprocessing**: (More detailed explanation can be found on preprocessing.ipynb and preprocessing.py) 
     * Filter and Merge the 4 files discussed above
     * Parse the data
