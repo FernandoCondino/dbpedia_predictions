@@ -28,20 +28,13 @@ To really identify "cities or settlements with at least 1,000 people", we read a
     * Create training dataframe (look at preprocessing.ipynb to see how and why the columns were added to the final dataframe)
     * Fix population errors found either during EDA or training
     
-* **Training**: (See models.py, svr_model.ipynb and linear_model.ipynb)
+* **Training**: (See models.py)
   - Since the range of the target value goes from 1000 to 21,571,281 I decided to use RMSLE as a metric, to avoid putting more attention to largest values. 
   - All training/test and CV are done with stratification
-  - At the moment, the models used are **SVR** and a **second order Polinomial regressor with L2 regularization (Ridge)**
-  - Baseline training score using the mean: 
-    - 0.7 RMSLE
-  - Ridge (polinomial 2° order) training score: 
-    - Validation RMSLE: 0.3104
-    - Validation R2 score: 0.8046
-    - Train RMSLE: 0.2923
-    - Train R2 score: 0.8256
-  - SVR (with kernel rbf):
-    - Validation RMSLE: 0.2796
-    - Train RMSLE: 0.2553
+  - At the moment, the models used are:
+    - Ridge polinomial 2° order (see linear_model.ipynb): 
+    - SVR with kernel rbf (see svr_model.ipynb):
+    - LXGB (see lxgb_model.ipynb):
   - For EDA see: EDA.ipynb
   
 * **Prediction:** (See evaluation.ipynb)
@@ -55,25 +48,28 @@ To really identify "cities or settlements with at least 1,000 people", we read a
     - Held out R2 score: 0.8128
   - SVR (with kernel rbf):
     - Validation RMSLE: 0.2767
-  
+  - LXGB:
+    - Validation RMSLE: 0.2659
+    
 * **Problems and limitations:**
-  - There are a lot of missing values because each subject has its own set of relations (MOSTRAR )
+  - There are a lot of missing values because each subject has its own set of relations
   - There are a good amount of errors in dbpedia, so manual interaction is needed. (I have to surf the web a lot to check the real populations of some cities when doing error analysis)
-  - Not only the target value has errors, but also the other relations like AreaTotal. See linear_model.ipynb. The polinomial model found it.
+  - Not only the target value has errors, but also the other relations like AreaTotal. See linear_model.ipynb. The polinomial model found Woodstock,_Ontario as an anomaly.
   - The range of the target value is so big that it would be better to try this as a classification problem (10^3, 10^4, 10^5, 10^6, +10^7)  
 
 * **Further improvements**:
-  - Try Random Forest, XGB and NN
+  - Try NN
   - Try Ensemble learning
-  - Treat this a as a classification problem, and try training specialized regression models 
+  - More error analysis over biggest differences
+  - Feature importance
+  - Treat this a as a classification problem, and try training specialized regression models
+   
 
 ### Prediction vs target plot for a model always predicting the mean value (Log10)
 ![title](img/Dummy_mean_predictions.png)
 
 ### Plots for the best model so far (Log10) 
-![title](img/SVR_predictions.png)
+![title](img/lxgb_predictions.png)
 
-### Current pipeline for SVR (see svr_model.ipynb and models.py):
-![title](img/SVR_pipeline.png)
 
 

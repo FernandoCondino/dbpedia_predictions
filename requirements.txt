@@ -9,3 +9,4 @@ eli5
 scipy
 bs4
 requests
+lightgbm

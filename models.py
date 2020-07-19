@@ -1,11 +1,12 @@
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.preprocessing import MinMaxScaler, RobustScaler
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer, TransformedTargetRegressor
+from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer, PolynomialFeatures, OneHotEncoder
 from sklearn.compose import make_column_selector as selector
 from sklearn.linear_model import Ridge
 from sklearn.svm import SVR
+from lightgbm import LGBMRegressor
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
@@ -75,6 +76,47 @@ def get_svr_pipeline(countries_threshold=0.97, utc_threshold=0.95, log=False):
     return pipeline
 
 
+def get_lxgb_pipeline():
+    model = LGBMRegressor(
+        learning_rate=0.03,
+        n_estimators=1500,
+        max_depth=7,
+        feature_fraction=0.4,
+        cat_smooth=1,
+        bagging_freq=20,
+        num_leaves=20,
+        reg_alpha=0.8,
+    )
+
+    def set_as_category(X):
+        df = X.copy()
+        msk = df.dtypes == 'object'
+        if msk.sum() > 0:
+            df.loc[:, msk] = df.loc[:, msk].astype('category')
+        return df
+
+    def rename_cols(X):
+        df = X.copy()
+        df.columns = ["".join(c if c.isalnum() else "_" for c in str(x)) for x in df.columns]
+        return df
+
+    rename_transformer = Pipeline(steps=[
+        ('rename_columns', FunctionTransformer(rename_cols)),
+    ])
+
+    categorical_transformer = Pipeline(steps=[
+        ('set_as_category', FunctionTransformer(set_as_category)),
+    ])
+
+    pipeline = Pipeline(steps=[
+        ('calculated_pop', CalculatedPopTransformer()),
+        ('categorical_transformer', categorical_transformer),
+        ('rename_columns', rename_transformer),
+        ('model', model),
+    ])
+    return pipeline
+
+
 class ModelEvaluator:
     def __init__(self, model, X_test, y_test, X_train, y_train):
         self.model = model
@@ -111,7 +153,7 @@ class ModelEvaluator:
         error_analysis_df = (error_analysis_df.loc[error_analysis_df.log_diff.abs()
             .sort_values(ascending=False).index])
         error_analysis_df = error_analysis_df[['pretty_subject', 'log_diff', 'log_target', 'log_predicted', 'target',
-                                               'predicted', 'diff', 'subject']] # reordering columns
+                                               'predicted', 'diff', 'subject']]  # reordering columns
         return error_analysis_df
 
     def plot_results(self, outlier_limit=1.5):
@@ -119,14 +161,17 @@ class ModelEvaluator:
         good_mask = np.abs(self.test_prediction - self.y_test) < outlier_limit
         bad_mask = np.abs(self.test_prediction - self.y_test) >= outlier_limit
 
-        sns.regplot(x=self.y_test[bad_mask], y=self.test_prediction[bad_mask] - self.y_test[bad_mask], ax=ax[0], color='red', fit_reg=False)
-        sns.regplot(x=self.y_test[good_mask], y=self.test_prediction[good_mask] - self.y_test[good_mask], ax=ax[0], color='seagreen', fit_reg=False)
+        sns.regplot(x=self.y_test[bad_mask], y=self.test_prediction[bad_mask] - self.y_test[bad_mask], ax=ax[0],
+                    color='red', fit_reg=False)
+        sns.regplot(x=self.y_test[good_mask], y=self.test_prediction[good_mask] - self.y_test[good_mask], ax=ax[0],
+                    color='seagreen', fit_reg=False)
         ax[0].axhline(0, ls='--', color='black')
         ax[0].set(xlabel='Target', ylabel='Prediction')
         ax[0].set_title('Residual Plot')
 
         sns.regplot(x=self.y_test[bad_mask], y=self.test_prediction[bad_mask], ax=ax[1], color='red', fit_reg=False)
-        sns.regplot(x=self.y_test[good_mask], y=self.test_prediction[good_mask], ax=ax[1], color='royalblue', fit_reg=False)
+        sns.regplot(x=self.y_test[good_mask], y=self.test_prediction[good_mask], ax=ax[1], color='royalblue',
+                    fit_reg=False)
         ax[1].plot([3, 7], [3, 7], 'red', linewidth=2)
         ax[1].set_title('Predicted vs Target scatter plot')
 
