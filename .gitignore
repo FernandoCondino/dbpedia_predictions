@@ -2,3 +2,4 @@
 /input/raw_data/
 /input/*_raw.csv
 .idea/*
+__pycache__/*
