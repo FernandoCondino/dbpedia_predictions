@@ -27,14 +27,14 @@ def compare_population_with_web(error_analysis_df, target_col='target', limit=30
 def get_population_row(population_table):
     tags_dict = {i: tag for i, tag in
                  enumerate(population_table.find_all('tr', {'class': ['mergedtoprow', 'mergedrow']}))}
-    populationIndex = -1
+    population_index = -1
     for i, tag in tags_dict.items():
         if 'mergedtoprow' in tag.get('class'):
             if tag.find('th') and 'population' in tag.find('th').text.lower():
-                populationIndex = i + 1
+                population_index = i + 1
                 break
-    if populationIndex >= 0:
-        index = populationIndex if tags_dict.get(populationIndex, False) else populationIndex - 1
+    if population_index >= 0:
+        index = population_index if tags_dict.get(population_index, False) else population_index - 1
         return tags_dict[index].find('td')
     return None
 
