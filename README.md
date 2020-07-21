@@ -72,4 +72,4 @@ To really identify "cities or settlements with at least 1,000 people", we read a
 
 
 ### Target split in 8 sensible bins gives a Quadratic kappa score of 0.89 (max value is 1)
-![title](img/Quadratic Kappa and Conf matrix.png)
+![title](img/Quadratic_Kappa_and_Conf_matrix.png)
