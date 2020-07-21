@@ -43,26 +43,25 @@ To really identify "cities or settlements with at least 1,000 people", we read a
   - I manualy check and fix the errors found and run the 2 models
   - Baseline held out score using the mean: 
     - 0.7 RMSLE
-  - Ridge (polinomial 2° order) training score: 
-    - Held out RMSLE: 0.3020
-    - Held out R2 score: 0.8128
+  - Ridge (polinomial 2° order): 
+    - Held out **RMSLE: 0.3020** 
+    - Held out **R2 score: 0.8128**
   - SVR (with kernel rbf):
-    - Validation RMSLE: 0.2767
+    - Held out **RMSLE: 0.2767**
   - LXGB:
-    - Validation RMSLE: 0.2659
+    - Held out **RMSLE: 0.2659**
+  - I Split the target in 8 sensible splits and I got a Quadratic Kappa score of 0.89, which I consider a reasonable value
     
 * **Problems and limitations:**
   - There are a lot of missing values because each subject has its own set of relations
   - There are a good amount of errors in dbpedia, so manual interaction is needed. (I have to surf the web a lot to check the real populations of some cities when doing error analysis)
   - Not only the target value has errors, but also the other relations like AreaTotal. See linear_model.ipynb. The polinomial model found Woodstock,_Ontario as an anomaly.
-  - The range of the target value is so big that it would be better to try this as a classification problem (10^3, 10^4, 10^5, 10^6, +10^7)  
 
 * **Further improvements**:
-  - Try NN
+  - Try text mining on the description of every subject 
   - Try Ensemble learning
   - More error analysis over biggest differences
   - Feature importance
-  - Treat this a as a classification problem, and try training specialized regression models
    
 
 ### Prediction vs target plot for a model always predicting the mean value (Log10)
@@ -72,4 +71,5 @@ To really identify "cities or settlements with at least 1,000 people", we read a
 ![title](img/lxgb_predictions.png)
 
 
-
+### Target split in 8 sensible bins gives a Quadratic kappa score of 0.89 (max value is 1)
+![title](img/Quadratic Kappa and Conf matrix.png)

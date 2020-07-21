@@ -19,7 +19,7 @@ class DbpediaTidyDataframeBuilder:
         raw_df.loc[numeric_mask, 'object'] = raw_df.loc[numeric_mask, 'object'].apply(parse_float)
         pivot_numeric_df = raw_df.loc[numeric_mask].pivot_table(index='subject', columns='relation', values='object',
                                                                 aggfunc='max')
-        pivot_numeric_df = pivot_numeric_df.fillna(0).astype(float).reset_index()
+        pivot_numeric_df = pivot_numeric_df.astype(float).reset_index()
 
         dbpedia_df = self.final_dbpedia_df.merge(pivot_numeric_df, on='subject', how='left')
         for column in numeric_columns:
