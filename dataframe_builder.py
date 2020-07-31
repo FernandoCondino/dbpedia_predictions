@@ -20,11 +20,7 @@ class DbpediaTidyDataframeBuilder:
         pivot_numeric_df = raw_df.loc[numeric_mask].pivot_table(index='subject', columns='relation', values='object',
                                                                 aggfunc='max')
         pivot_numeric_df = pivot_numeric_df.astype(float).reset_index()
-
         dbpedia_df = self.final_dbpedia_df.merge(pivot_numeric_df, on='subject', how='left')
-        for column in numeric_columns:
-            cleaned_column = column.replace('<http://dbpedia.org/ontology/', '') + 'NAN'  # adding flag column for NaN's
-            dbpedia_df.loc[:, cleaned_column] = dbpedia_df[column].isnull().astype(int)
         self.final_dbpedia_df = dbpedia_df.fillna(0)
         return self
 
