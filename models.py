@@ -78,13 +78,13 @@ def get_svr_pipeline(countries_threshold=0.97, utc_threshold=0.95, log=False):
 
 def get_lxgb_pipeline():
     model = LGBMRegressor(
-        learning_rate=0.03,
-        n_estimators=1500,
+        learning_rate=0.02,
+        n_estimators=3000,
         max_depth=7,
-        feature_fraction=0.4,
+        feature_fraction=0.5,
         cat_smooth=1,
         bagging_freq=20,
-        num_leaves=20,
+        num_leaves=25,
         reg_alpha=0.8,
     )
 
