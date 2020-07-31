@@ -45,10 +45,9 @@ To really identify "cities or settlements with at least 1,000 people", we read a
   - I first run a Polinomial regression capable of detect some anomalies (the same used to find them during training)
   - Then I run a script to scrap wikipedia.com and try to find the population of the subjects with anomalies
   - I manualy check and fix the errors found and run the 2 models
-  - Baseline held out score using the mean: 
-    - <b>0.7 RMSLE</b>
-  - Best model using infobox features + NLP features gives:
-    - Held out **RMSLE: 0.227**
+  - The baseline score using the mean is: <b>0.7 RMSLE</b>
+  - The best model using infobox features + NLP features gives:
+    - **RMSLE: 0.227**
     - Biggest logarithmic error: <b>1.38</b> 
     - Log absolute errors: 
       - Greater than 1: <b>0.38%</b>
