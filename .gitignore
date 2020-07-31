@@ -1,5 +1,10 @@
-/.ipynb_checkpoints/
+.*ipynb_checkpoints/
 /input/raw_data/
 /input/*_raw.csv
 .idea/*
 __pycache__/*
+nlp/__pycache__/*
+nlp/cache
+cache/
+nlp_held_out_prediction_evaluation.csv
+nlp_train_prediction_evaluation.csv
