@@ -10,3 +10,4 @@ scipy
 bs4
 requests
 lightgbm
+nltk
