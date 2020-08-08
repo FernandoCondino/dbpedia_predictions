@@ -2,9 +2,10 @@
 <h5>The challenge and some ideas were taken from this book <a href="https://www.amazon.com/Art-Feature-Engineering-Essentials-Learning/dp/1108709389">The Art of Feature Engineering</a></h5>
 
 <h3>Challenge:</h3>
-   * Given <a href="https://wiki.dbpedia.org/" >DBpedia 2020 files</a> predict population of all cities (excluding cities with less than 1000 people)
-   * To see how I handle this task using just some description text go to [NLP](nlp/README.MD)
-   * To see the evaluation notebook where the prediction of held out set is done and the predictions from NLP are added as features to LGBM, go to [Evaluation.ipynb](evaluation.ipynb)
+
+  * Given <a href="https://wiki.dbpedia.org/" >DBpedia 2020 files</a> predict population of all cities (excluding cities with less than 1000 people)
+  * To see how I handle this task using just some description text go to [NLP](nlp/README.MD)
+  * To see the evaluation notebook where the prediction of held out set is done and the predictions from NLP are added as features to LGBM, go to [Evaluation.ipynb](evaluation.ipynb)
 
 <h3>Explanation:</h3>
    
