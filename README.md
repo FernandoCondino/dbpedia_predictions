@@ -20,7 +20,7 @@ DBpedia files are distributed as files of triples, where a triple consists of:
 * **Prediction:** (See [evaluation notebook](evaluation.ipynb))
   - Since the <b>range of the target values go from 1000 to 21,571,281 </b> I decided to use RMSLE as a metric, to avoid putting more attention to largest values. 
   - I first run a Polinomial regression capable of detect some anomalies (the same used to find them during training)
-  - Then I run a script to scrap wikipedia.com and try to find the population of the subjects with anomalies
+  - Then I run a script to scrap wikipedia.com and try to find the **real** population of the subjects with anomalies (there are some errors in dbPedia)
   - I manualy check and fix the errors found and run the 2 models
   - The baseline score using the mean is: <b>0.7 RMSLE</b>
   - The best model using infobox features + NLP features gives:
@@ -31,7 +31,7 @@ DBpedia files are distributed as files of triples, where a triple consists of:
       - Greater than 0.5: <b>4.63%</b>
       - Greater than 0.25: <b>19.35%</b>
       - Greater than 0.1: <b>48.87%</b>
-  - I Split the target in 8 sensible bins and I got a <b>Quadratic Kappa score of 0.93 </b>. As you'll see, most of the corner values in the confusion matrix are 0, which means the model doesn't make big mistakes (ie: saying one city has 2500 people when it has 50,000)
+  - I also split the target in 8 sensible bins and I got a <b>Quadratic Kappa score of 0.93 </b>. As you'll see, most of the corner values in the confusion matrix are 0, which means the model doesn't make big mistakes (ie: saying one city has 2500 people when it has 50,000)
     
 * **Preprocessing**: (A more detailed explanation can be found on [preprocessing.ipynb](preprocessing.ipynb) and preprocessing.py) 
     * We have 4 files to merge:
